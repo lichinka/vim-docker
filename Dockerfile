@@ -10,12 +10,13 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # install software
 RUN apt-get update && \
-    apt-get install -y build-essential \
-                       cmake           \
-                       fontconfig      \
-                       git             \
-                       python-dev      \
-                       vim             \
+    apt-get install -y build-essential   \
+                       cmake             \
+                       fontconfig        \
+                       git               \
+                       python-dev        \
+                       silversearcher-ag \
+                       vim               \
                        wget
 
 # user and locale configuration
@@ -33,10 +34,10 @@ RUN chown --recursive dev:dev $HOME
 USER dev
 
 # setup pathogen vim plugin manager
-RUN mkdir -p $HOME/.vim/autoload $HOME/.vim/bundle && \
+RUN mkdir -p $HOME/.vim/autoload $HOME/.vim/bundle          && \
     wget -P $HOME/.vim/autoload https://tpo.pe/pathogen.vim && \
-    echo "execute pathogen#infect()" >> $HOME/.vimrc && \
-    echo "syntax on"                 >> $HOME/.vimrc && \
+    echo "execute pathogen#infect()" >> $HOME/.vimrc        && \
+    echo "syntax on"                 >> $HOME/.vimrc        && \
     echo "filetype plugin indent on" >> $HOME/.vimrc
 
 # include the user's vimrc
@@ -62,8 +63,7 @@ RUN git clone https://github.com/tpope/vim-sensible.git $HOME/.vim/bundle/vim-se
     git clone https://github.com/Valloric/YouCompleteMe.git $HOME/.vim/bundle/YouCompleteMe && \
     cd $HOME/.vim/bundle/YouCompleteMe && \
     git submodule update --init --recursive && \
-    ./install.sh --clang-completer && \
-    cd
+    ./install.sh --clang-completer
 
 
-CMD vim
+CMD cd $HOME/src && vim
