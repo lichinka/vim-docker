@@ -8,6 +8,8 @@ if [ -z "${MNT_DIR}" ]; then
 fi
 if [ -z "${MNT_PNT}" ]; then
     MNT_PNT="/home/dev/src"
+else
+    MNT_PNT="/home/dev/src/${MNT_PNT}"
 fi
 
 echo "Mounting directory '${MNT_DIR}' under '${MNT_PNT}'"
