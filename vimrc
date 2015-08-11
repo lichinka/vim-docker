@@ -6,53 +6,15 @@ if has('vim_starting')
     if &compatible
         set nocompatible
     endif
-
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" ----------------
-" used bundles
-" ----------------
-" sensible defaults
-NeoBundle 'tpope/vim-sensible'
-" airline status bar
-NeoBundle 'bling/vim-airline'
-" awesome git!
-NeoBundle 'tpope/vim-fugitive'
-" git in the gutter
-NeoBundle 'airblade/vim-gitgutter'
-" use silver searcher in place of grep
-NeoBundle 'rking/ag.vim'
-" control-p for finding files
-NeoBundle 'kien/ctrlp.vim'
-
-if v:version > 703
-    " provides fuzzy completer and clang based cleverness
-    NeoBundle 'Valloric/YouCompleteMe', {
-         \ 'build'      : {
-            \ 'mac'     : './install.sh --clang-completer',
-            \ 'unix'    : './install.sh --clang-completer',
-            \ }
-         \ }
-endif
-
-call neobundle#end()
-
-" required by neobundle
+" required by pathogen
+execute pathogen#infect()
+syntax on
 filetype plugin indent on
 
-" prompt to install uninstalled bundles found on startup
-NeoBundleCheck
-
+" dark colors
 set background=dark
-
-" syntax hilighting
-syntax on
 
 " swap between buffers without needing to save
 set hidden
@@ -92,5 +54,9 @@ if has("gui_running")
 endif
 colorscheme desert
 
-" install neobundle plugins
-autocmd VimEnter * NeoBundleInstall
+" Airline settings
+set laststatus=2
+let g:airline#extensions#tabline#enabled      = 1
+let g:airline#extensions#tabline#left_sep     = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+

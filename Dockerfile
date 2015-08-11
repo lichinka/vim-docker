@@ -11,7 +11,6 @@ ENV DEBIAN_FRONTEND noninteractive
 # install software
 RUN apt-get update && \
     apt-get install -y build-essential \
-                       clang           \
                        cmake           \
                        fontconfig      \
                        git             \
@@ -33,21 +32,38 @@ ENV LC_ALL en_US.UTF-8
 RUN chown --recursive dev:dev $HOME
 USER dev
 
+# setup pathogen vim plugin manager
+RUN mkdir -p $HOME/.vim/autoload $HOME/.vim/bundle && \
+    wget -P $HOME/.vim/autoload https://tpo.pe/pathogen.vim && \
+    echo "execute pathogen#infect()" >> $HOME/.vimrc && \
+    echo "syntax on"                 >> $HOME/.vimrc && \
+    echo "filetype plugin indent on" >> $HOME/.vimrc
+
 # include the user's vimrc
 ADD vimrc .vimrc
 
-# setup NeoBundle vim plugin manager
-RUN mkdir -p $HOME/.vim/autoload $HOME/.vim/bundle                                && \
-    git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+#
+# -- Vim plugins --
+#
 
-RUN vim -E -c 'qa' ~/.vimrc
+# Sensible 
+RUN git clone https://github.com/tpope/vim-sensible.git $HOME/.vim/bundle/vim-sensible && \
+# Airline
+    git clone https://github.com/bling/vim-airline.git $HOME/.vim/bundle/vim-airline && \
+# CtrlP
+    git clone https://github.com/kien/ctrlp.vim.git $HOME/.vim/bundle/ctrlp.vim && \
+# Git
+    git clone https://github.com/tpope/vim-fugitive.git $HOME/.vim/bundle/vim-fugitive && \
+# Git in the gutter
+    git clone https://github.com/airblade/vim-gitgutter.git $HOME/.vim/bundle/vim-gitgutter && \
+# Silver search
+    git clone https://github.com/rking/ag.vim.git $HOME/.vim/bundle/ag.vim && \
+# YouCompleteMe
+    git clone https://github.com/Valloric/YouCompleteMe.git $HOME/.vim/bundle/YouCompleteMe && \
+    cd $HOME/.vim/bundle/YouCompleteMe && \
+    git submodule update --init --recursive && \
+    ./install.sh --clang-completer && \
+    cd
 
-# install Powerline fonts 
-RUN mkdir -p $HOME/.fonts $HOME/.config/fontconfig/conf.d                                                                       && \ 
-    wget -P $HOME/.fonts https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf                            && \ 
-    wget -P $HOME/.config/fontconfig/conf.d/ https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf   && \ 
-    fc-cache -vf $HOME/.fonts/                                                                                                  && \ 
-    echo "set guifont=Droid\\ Sans\\ Mono\\ 10" 
-    # echo "set guifont=Liberation\\ Mono\\ for\\ Powerline\\ 10" 
 
 CMD vim
