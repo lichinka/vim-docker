@@ -25,7 +25,8 @@ RUN useradd dev                                                     && \
     cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime             && \
     dpkg-reconfigure locales                                        && \
     locale-gen en_US.UTF-8                                          && \
-    /usr/sbin/update-locale LANG=en_US.UTF-8
+    /usr/sbin/update-locale LANG=en_US.UTF-8                        && \
+    mkdir -p $HOME/src
 
 WORKDIR /home/dev
 ENV HOME /home/dev
@@ -48,21 +49,21 @@ ADD vimrc .vimrc
 #
 
 # Sensible 
-RUN git clone https://github.com/tpope/vim-sensible.git $HOME/.vim/bundle/vim-sensible && \
+RUN git clone https://github.com/tpope/vim-sensible.git $HOME/.vim/bundle/vim-sensible      && \
 # Airline
-    git clone https://github.com/bling/vim-airline.git $HOME/.vim/bundle/vim-airline && \
+    git clone https://github.com/bling/vim-airline.git $HOME/.vim/bundle/vim-airline        && \
 # CtrlP
-    git clone https://github.com/kien/ctrlp.vim.git $HOME/.vim/bundle/ctrlp.vim && \
+    git clone https://github.com/kien/ctrlp.vim.git $HOME/.vim/bundle/ctrlp.vim             && \
 # Git
-    git clone https://github.com/tpope/vim-fugitive.git $HOME/.vim/bundle/vim-fugitive && \
+    git clone https://github.com/tpope/vim-fugitive.git $HOME/.vim/bundle/vim-fugitive      && \
 # Git in the gutter
     git clone https://github.com/airblade/vim-gitgutter.git $HOME/.vim/bundle/vim-gitgutter && \
 # Silver search
-    git clone https://github.com/rking/ag.vim.git $HOME/.vim/bundle/ag.vim && \
+    git clone https://github.com/rking/ag.vim.git $HOME/.vim/bundle/ag.vim                  && \
 # YouCompleteMe
     git clone https://github.com/Valloric/YouCompleteMe.git $HOME/.vim/bundle/YouCompleteMe && \
-    cd $HOME/.vim/bundle/YouCompleteMe && \
-    git submodule update --init --recursive && \
+    cd $HOME/.vim/bundle/YouCompleteMe                                                      && \
+    git submodule update --init --recursive                                                 && \
     ./install.sh --clang-completer
 
 
