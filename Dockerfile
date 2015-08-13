@@ -25,14 +25,14 @@ RUN useradd dev                                                     && \
     cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime             && \
     dpkg-reconfigure locales                                        && \
     locale-gen en_US.UTF-8                                          && \
-    /usr/sbin/update-locale LANG=en_US.UTF-8                        && \
-    mkdir -p $HOME/src
+    /usr/sbin/update-locale LANG=en_US.UTF-8
 
 WORKDIR /home/dev
 ENV HOME /home/dev
 ENV LC_ALL en_US.UTF-8 
 RUN chown --recursive dev:dev $HOME
 USER dev
+RUN mkdir -p $HOME/src
 
 # setup pathogen vim plugin manager
 RUN mkdir -p $HOME/.vim/autoload $HOME/.vim/bundle          && \
@@ -67,4 +67,7 @@ RUN git clone https://github.com/tpope/vim-sensible.git $HOME/.vim/bundle/vim-se
     ./install.sh --clang-completer
 
 
-CMD cd $HOME/src && vim
+COPY docker-entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["vim"]

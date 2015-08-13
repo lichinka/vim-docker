@@ -13,4 +13,6 @@ else
 fi
 
 echo "Mounting directory '${MNT_DIR}' under '${MNT_PNT}'"
-docker run -it -v ${MNT_DIR}:${MNT_PNT} vim-devel:latest
+docker run -it                       \
+	    -v ${MNT_DIR}:${MNT_PNT} \
+	    vim-devel:latest
