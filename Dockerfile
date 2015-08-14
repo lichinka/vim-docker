@@ -16,14 +16,11 @@ RUN apt-get update && \
                        git               \
                        python-dev        \
                        silversearcher-ag \
-                       sshfs             \
                        vim               \
                        wget
 
 # user and locale configuration
 RUN useradd dev                                                     && \
-    echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    sudo gpasswd -a dev fuse                                        && \
     cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime             && \
     dpkg-reconfigure locales                                        && \
     locale-gen en_US.UTF-8                                          && \
@@ -67,7 +64,6 @@ RUN git clone https://github.com/tpope/vim-sensible.git $HOME/.vim/bundle/vim-se
     cd $HOME/.vim/bundle/YouCompleteMe                                                      && \
     git submodule update --init --recursive                                                 && \
     ./install.sh --clang-completer
-
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

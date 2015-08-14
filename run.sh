@@ -1,26 +1,22 @@
 #!/bin/bash
 
-MNT_DIR="$1"
-MNT_PNT="$2"
+MNT_DIR="$( pwd )"
+MNT_PNT="/home/dev/src"
 
 #
-# get the host IP address
+# try to mount a Git repository root if no parameter were given
 #
-DOCKER_HOST_IP="netstat -nr | grep '^0\.0\.0\.0' | awk '{print $2}'"
-
-
-if [ -z "${MNT_DIR}" ]; then
-    MNT_DIR=~/
-fi
-if [ -z "${MNT_PNT}" ]; then
-    MNT_PNT="/home/dev/src"
-else
-    MNT_PNT="/home/dev/src/${MNT_PNT}"
+if [ ! -d ".git" ]; then
+    git rev-parse --git-dir > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        MNT_DIR="$( git rev-parse --git-dir )"
+    fi
 fi
 
 echo "Mounting directory '${MNT_DIR}' under '${MNT_PNT}'"
-docker run --add-host=dockerhost:${DOCKER_HOST_IP} \
-           --rm                                    \
-           -it                                     \
+docker run --rm                      \
+           -it                       \
+           --env HOST_UID=$( id -u ) \
            -v ${MNT_DIR}:${MNT_PNT}  \
-           vim-devel:latest
+           vim-devel:latest          \
+           vim $@
