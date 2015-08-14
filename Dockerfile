@@ -16,12 +16,14 @@ RUN apt-get update && \
                        git               \
                        python-dev        \
                        silversearcher-ag \
+                       sshfs             \
                        vim               \
                        wget
 
 # user and locale configuration
 RUN useradd dev                                                     && \
     echo "ALL            ALL = (ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+    sudo gpasswd -a dev fuse                                        && \
     cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime             && \
     dpkg-reconfigure locales                                        && \
     locale-gen en_US.UTF-8                                          && \

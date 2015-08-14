@@ -7,7 +7,7 @@ if [ "${1:0:1}" = '-' ]; then
 fi
 
 if [ "$1" = 'vim' ]; then
-	sudo chown -R dev:dev "$HOME/src"
+	chown -R dev:dev "$HOME/src"
 fi
 
 cd $HOME/src && \
