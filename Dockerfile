@@ -65,6 +65,7 @@ RUN git clone https://github.com/tpope/vim-sensible.git $HOME/.vim/bundle/vim-se
     git submodule update --init --recursive                                                 && \
     ./install.sh --clang-completer
 
+USER root
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
