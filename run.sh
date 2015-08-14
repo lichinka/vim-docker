@@ -9,7 +9,7 @@ MNT_PNT="/home/dev/src"
 if [ ! -d ".git" ]; then
     git rev-parse --git-dir > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-        MNT_DIR="$( git rev-parse --git-dir )"
+        MNT_DIR="$( git rev-parse --git-dir | sed -e 's/git$//' )"
     fi
 fi
 

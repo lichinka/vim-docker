@@ -11,25 +11,34 @@ $> docker images
 ### Building
 
 * Open the included `vimrc` and change it to fit your needs.
-* Add or remove any Vim plugins from the 'Vim plugins' section of `Dockerfile`.
-* Execute the script `build.sh`
+* Add or remove any VIM plugins from the 'Vim plugins' section of `Dockerfile`.
+* Execute the script `build.sh` to create the container's image.
 
 ### Using the container
-* The container is started by launching the included script `run.sh`, which accepts two parameters, e.g.:
+* The container is started by launching the included script `run.sh`, which accepts a file as a parameter, e.g.:
 
 ```
-$> run.sh $(pwd)
+$> run.sh my_file.txt
 ```
 
-will start the container with the current directory directly accessible.
+will start the container with the current directory directly accessible and `my_file.txt` opened inside VIM.
 
 ```
-$> run.sh /tmp my_test
+$> run.sh
 ```
 
-will start the container with the local directory `/tmp` mounted under `my_test`.
-* You may create an alias in your `.profile` or `.bashrc` to launch the container when calling `vi`, e.g.:
+will start the container with the closest Git repository root found upstream, or the current directory if none exists.
+* You may create an alias in your `.profile` or `.bashrc` to launch the container when calling VIM, e.g.:
 
 ```
-alias vi="/path/to/run.sh $(pwd)"
+alias vim="/path/to/run.sh"
 ```
+* To alter your `vimrc` after building the image, change the `run.sh` script to include this line as part of the `docker run ...` command:
+
+```
+docker run ... \
+-v /path/to/your/new/vimrc:/home/dev/.vimrc \
+... \
+```
+
+Enjoy!
