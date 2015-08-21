@@ -1,7 +1,7 @@
 #
 # based on haron/vim Dockerfile
 #
-FROM ubuntu:latest 
+FROM ubuntu:14.04
 
 MAINTAINER Lucas Benedicic <benedicic@cscs.ch>
 
@@ -9,15 +9,15 @@ MAINTAINER Lucas Benedicic <benedicic@cscs.ch>
 ENV DEBIAN_FRONTEND noninteractive
 
 # install software
-RUN apt-get update && \
+RUN apt-get update                          && \
     apt-get install -y build-essential   \
                        cmake             \
-                       fontconfig        \
                        git               \
                        python-dev        \
                        silversearcher-ag \
                        vim               \
-                       wget
+                       wget                 && \
+    rm -rf /var/lib/apt/lists
 
 # user and locale configuration
 RUN useradd dev                                                     && \
