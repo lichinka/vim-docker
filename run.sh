@@ -17,6 +17,7 @@ echo "Mounting directory '${MNT_DIR}' under '${MNT_PNT}'"
 docker run --rm                      \
            -it                       \
            --env HOST_UID=$( id -u ) \
+           --env HOST_GID=$( id -g ) \
            -v ${MNT_DIR}:${MNT_PNT}  \
            vim-devel:latest          \
            vim $@
