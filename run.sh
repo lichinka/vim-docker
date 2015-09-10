@@ -47,10 +47,10 @@ if [ -z "${MNT_DIR}" ] && [ -z "${TGT_FILE}" ]; then
 fi
 
 echo "Opening file '${SRC_FILE}' as '${TGT_FILE}'"
-docker run --rm                      \
-           -it                       \
-           --env HOST_UID=$( id -u ) \
-           --env HOST_GID=$( id -g ) \
-           -v ${MNT_DIR}:${MNT_PNT}  \
-           vim-devel:latest          \
+docker run --rm                        \
+           -it                         \
+           --env HOST_UID=$( id -u )   \
+           --env HOST_GID=$( id -g )   \
+           -v ${MNT_DIR}:${MNT_PNT}    \
+           lichinka/vim-docker:latest  \
            vim ${TGT_FILE}
