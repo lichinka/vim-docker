@@ -21,29 +21,11 @@ elif [[ ${SRC_FILE} == "/"* ]]; then
     MNT_DIR="$( dirname ${SRC_FILE} )"
     TGT_FILE="${MNT_PNT}/$( basename ${SRC_FILE} )"
 #
-# relative paths are handled differently
+# or just the current directory
 #
-elif [ ! -d ".git" ]; then
-    git rev-parse --git-dir > /dev/null 2>&1
-    #
-    # try to mount a Git repository
-    #
-    if [ $? -eq 0 ]; then
-        MNT_DIR="$( git rev-parse --git-dir | sed -e 's/git$//' )"
-        MNT_DIR="$( get_realpath "${MNT_DIR}" )"
-        MNT_DIR="$( dirname ${MNT_DIR} )"
-        TGT_FILE="$( basename ${SRC_FILE} )"
-    fi
-fi
-#
-# or just the current directory if everything else fails
-#
-if [ -z "${MNT_DIR}" ] && [ -z "${TGT_FILE}" ]; then
-    #
-    # or just the current directory
-    #
+elif [ -z "${MNT_DIR}" ] && [ -z "${TGT_FILE}" ]; then
     MNT_DIR="$( pwd )"
-    TGT_FILE="${MNT_PNT}/$( basename ${SRC_FILE} )"
+    TGT_FILE="${MNT_PNT}/${SRC_FILE}"
 fi
 
 echo "Opening file '${SRC_FILE}' as '${TGT_FILE}'"
