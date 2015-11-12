@@ -29,7 +29,7 @@ elif [ -z "${MNT_DIR}" ] && [ -z "${TGT_FILE}" ]; then
 fi
 
 echo "Opening file '${SRC_FILE}' as '${TGT_FILE}'"
-docker run --rm                        \
+docker run --rm=true                   \
            -it                         \
            --env HOST_UID=$( id -u )   \
            --env HOST_GID=$( id -g )   \
