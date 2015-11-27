@@ -6,7 +6,7 @@ set -e
 #
 usermod  -ou ${HOST_UID} dev > /dev/null 2>&1
 groupmod -og ${HOST_GID} dev > /dev/null 2>&1
-chown --recursive dev:dev /home/dev
+#chown --recursive dev:dev /home/dev
 cd /home/dev/src
 
 #
